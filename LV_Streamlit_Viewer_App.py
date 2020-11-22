@@ -6,8 +6,8 @@ st.header("Du Chemin Lost Voices Cadence Data")
 
 @st.cache
 def get_data():
-	path = r'/Users/rfreedma/Downloads/Du Chemin Production Data - Similar_Cadences.csv'
-	return pd.read_csv(path)
+	url = "https://raw.githubusercontent.com/RichardFreedman/LostVoicesCadenceViewer/main/LV_CadenceData.csv"
+	return pd.read_csv(url)
 df = get_data()
 
 # Dialogue to Show Raw Data as Table
