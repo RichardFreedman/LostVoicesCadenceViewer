@@ -4,6 +4,7 @@ import altair as alt
 
 st.header("Du Chemin Lost Voices Cadence Data")
 
+# st.cache speeds things up by holding data in cache
 @st.cache
 def get_data():
 	url = "https://raw.githubusercontent.com/RichardFreedman/LostVoicesCadenceViewer/main/LV_CadenceData.csv"
