@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import altair as alt
 
+
 st.header("Du Chemin Lost Voices Cadence Data")
 
 # st.cache speeds things up by holding data in cache
@@ -24,10 +25,10 @@ tones = df[["cadence_final_tone", "cadence_kind", "final_cadence", "composition_
 # This displays unfiltered 
 
 all_tone_diagram = alt.Chart(tones).mark_circle().encode(
-    x='cadence_kind',
+    x='final_cadence',
     y='composition_number',
-    color='final_cadence',
-    #shape='final_cadence'
+    color='cadence_final_tone',
+    shape='cadence_kind'
 )
 
 if st.sidebar.checkbox('Show All Pieces with Their Cadences'):
@@ -50,7 +51,6 @@ mask_cadences = tones['cadence_final_tone'].isin(cadences_selected)
 
 tone_data = tones[mask_cadences]
 
-
 # This is for filtered tones (just oned)
 tone_diagram = alt.Chart(tone_data).mark_circle().encode(
     x='cadence_kind',
@@ -60,9 +60,7 @@ tone_diagram = alt.Chart(tone_data).mark_circle().encode(
     tooltip=['cadence_kind', 'composition_number', 'final_cadence']
 )
 
-
 st.altair_chart(tone_diagram, use_container_width=True)
-
 
 
 # This displays choice of piece 
