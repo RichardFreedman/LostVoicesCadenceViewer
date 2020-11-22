@@ -14,11 +14,11 @@ StreamLit App for Visualizing Cadence Metadata for The Lost Voices Project (http
 
 ## Functions:
 
-- Use options at left to see:
--- Raw Data
--- All pieces with Cadences
--- Selected Cadence Tones
--- Selected pieces
+Use options at left to see:
+- Raw Data
+- All pieces with Cadences
+- Selected Cadence Tones
+- Selected pieces
 
 ## Preview
 
