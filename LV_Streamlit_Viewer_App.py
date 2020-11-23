@@ -1,6 +1,11 @@
 import streamlit as st
 import pandas as pd
 import altair as alt
+import matplotlib.pyplot as plt
+#matplotlib inline
+import seaborn as sns
+
+import requests
 
 
 st.header("Du Chemin Lost Voices Cadence Data")
@@ -8,9 +13,14 @@ st.header("Du Chemin Lost Voices Cadence Data")
 # st.cache speeds things up by holding data in cache
 @st.cache
 def get_data():
-	url = "https://raw.githubusercontent.com/RichardFreedman/LostVoicesCadenceViewer/main/LV_CadenceData.csv"
-	return pd.read_csv(url)
+    url = "https://raw.githubusercontent.com/RichardFreedman/LostVoicesCadenceViewer/main/LV_CadenceData.csv"
+    df = pd.read_csv(url)
+    #cadence_json =  requests.get("https://raw.githubusercontent.com/bmill42/DuChemin/master/phase1/data/duchemin.similarities.json").json()
+    #df['similarity'] = cadence_json
+    return df 
 df = get_data()
+
+
 
 # Dialogue to Show Raw Data as Table
 
@@ -19,7 +29,24 @@ if st.sidebar.checkbox('Show Complete Data Frame'):
 	st.write(df)
 
 #tones = df['cadence_final_tone'].drop_duplicates()
+#tones = df[["cadence_final_tone", "cadence_kind", "final_cadence", "composition_number"]]
+
+if st.sidebar.checkbox('Show Cadence Counts'):
+    st.subheader('Cadence Counts')
+    st.write(df['cadence_final_tone'].value_counts())
+
+#tones = df['cadence_final_tone'].drop_duplicates()
 tones = df[["cadence_final_tone", "cadence_kind", "final_cadence", "composition_number"]]
+
+all_tone_1 = alt.Chart(tones).mark_circle().encode(
+    x='cadence_final_tone',
+    y='final_cadence',
+    color='cadence_kind'
+)
+
+if st.sidebar.checkbox('Cadence Kinds and Tones'):
+    st.subheader('Cadence Kinds and Tones')
+    st.altair_chart(all_tone_1, use_container_width=True)
 
 
 # This displays unfiltered 
@@ -81,6 +108,12 @@ piece_diagram = alt.Chart(piece_data).mark_circle().encode(
 )
 
 st.altair_chart(piece_diagram, use_container_width=True)
+
+
+
+#similar_cadences = df[["phrase_number", "similarity"]]
+
+#st.plotly_chart(similar_cadences)
 
 
 
