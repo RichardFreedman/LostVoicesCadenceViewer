@@ -12,8 +12,8 @@ st.header("Du Chemin Lost Voices Cadence Data")
 def get_data():
     url = "https://raw.githubusercontent.com/RichardFreedman/LostVoicesCadenceViewer/main/LV_CadenceData.csv"
     df = pd.read_csv(url)
-    #cadence_json =  requests.get("https://raw.githubusercontent.com/bmill42/DuChemin/master/phase1/data/duchemin.similarities.json").json()
-    #df['similarity'] = cadence_json
+    cadence_json =  requests.get("https://raw.githubusercontent.com/bmill42/DuChemin/master/phase1/data/duchemin.similarities.json").json()
+    df['similarity'] = cadence_json
     return df 
 df = get_data()
 
