@@ -9,6 +9,7 @@ st.header("Du Chemin Lost Voices Cadence Data")
 
 # st.cache speeds things up by holding data in cache
 # @st.cache
+@st.cache(allow_output_mutation=True).
 def get_data():
     url = "https://raw.githubusercontent.com/RichardFreedman/LostVoicesCadenceViewer/main/LV_CadenceData.csv"
     df = pd.read_csv(url)
