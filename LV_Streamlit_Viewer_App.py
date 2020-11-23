@@ -1,8 +1,6 @@
 import streamlit as st
 import pandas as pd
 import altair as alt
-import matplotlib.pyplot as plt
-#matplotlib inline
 import seaborn as sns
 
 import requests
