@@ -37,7 +37,7 @@ if st.sidebar.checkbox('Show All Pieces with Their Cadences'):
 
 
 # Dialogue to Select Cadence by Final Tone
-st.subheader('Selected Cadences by Final Tone')
+st.subheader('Cadences with Final Tone as Shown at Left')
 
 
 # Create a list of possible values and multiselect menu with them in it.
@@ -64,7 +64,7 @@ st.altair_chart(tone_diagram, use_container_width=True)
 
 
 # This displays choice of piece 
-st.subheader('Selected Pieces')
+st.subheader('Selected Pieces as Shown at Left')
 
 piece_list = tones['composition_number'].unique()
 pieces_selected = st.sidebar.multiselect('Select Piece(s)', piece_list)
