@@ -13,6 +13,7 @@ st.header("Du Chemin Lost Voices Cadence Data")
 def get_data():
     url = "https://raw.githubusercontent.com/RichardFreedman/LostVoicesCadenceViewer/main/LV_CadenceData.csv"
     df = pd.read_csv(url)
+    # The following adds the list of 'similar' cadences to the DF
     cadence_json =  requests.get("https://raw.githubusercontent.com/bmill42/DuChemin/master/phase1/data/duchemin.similarities.json").json()
     df['similarity'] = cadence_json
     return df 
@@ -29,9 +30,17 @@ if st.sidebar.checkbox('Show Complete Data Frame'):
 #tones = df['cadence_final_tone'].drop_duplicates()
 #tones = df[["cadence_final_tone", "cadence_kind", "final_cadence", "composition_number"]]
 
-if st.sidebar.checkbox('Show Cadence Counts'):
-    st.subheader('Cadence Counts')
+if st.sidebar.checkbox('Show Cadence Final Tone Counts'):
+    st.subheader('Cadence Final Tone Counts')
     st.write(df['cadence_final_tone'].value_counts())
+
+if st.sidebar.checkbox('Show Cadence Kind Counts'):
+    st.subheader('Cadence Kind Counts')
+    st.write(df['cadence_kind'].value_counts())   
+
+if st.sidebar.checkbox('Show Final Cadence of Piece Counts'):
+    st.subheader('Final Cadence of Piece Counts')
+    st.write(df['final_cadence'].value_counts())   
 
 #tones = df['cadence_final_tone'].drop_duplicates()
 tones = df[["cadence_final_tone", "cadence_kind", "final_cadence", "composition_number"]]
@@ -47,7 +56,7 @@ if st.sidebar.checkbox('Cadence Kinds and Tones'):
     st.altair_chart(all_tone_1, use_container_width=True)
 
 
-# This displays unfiltered 
+# This displays all unfiltered 
 
 all_tone_diagram = alt.Chart(tones).mark_circle().encode(
     x='final_cadence',
@@ -61,22 +70,22 @@ if st.sidebar.checkbox('Show All Pieces with Their Cadences'):
 	st.altair_chart(all_tone_diagram, use_container_width=True)
 
 
-# Dialogue to Select Cadence by Final Tone
+# Dialogue to Select Cadence by Final Tone of Cadence
 st.subheader('Cadences with Final Tone as Shown at Left')
 
 
 # Create a list of possible values and multiselect menu with them in it.
 
-#cadence_list = tones['cadence_final_tone']
+
 cadence_list = tones['cadence_final_tone'].unique()
-cadences_selected = st.sidebar.multiselect('Select Tone(s)', cadence_list)
+cadences_selected = st.sidebar.multiselect('Select Cadence Final Tone(s)', cadence_list)
 
 # Mask to filter dataframe
 mask_cadences = tones['cadence_final_tone'].isin(cadences_selected)
 
 tone_data = tones[mask_cadences]
 
-# This is for filtered tones (just oned)
+# This is for filtered tones (just one)
 tone_diagram = alt.Chart(tone_data).mark_circle().encode(
     x='cadence_kind',
     y='composition_number',
@@ -87,7 +96,29 @@ tone_diagram = alt.Chart(tone_data).mark_circle().encode(
 
 st.altair_chart(tone_diagram, use_container_width=True)
 
+# Dialogue to Select Cadence Kind
+st.subheader('Cadences by Kind as Shown at Left')
 
+# Create a list of possible values and multiselect menu with them in it.
+
+cadence_list = tones['cadence_kind'].unique()
+cadences_selected = st.sidebar.multiselect('Select Cadence Kind(s)', cadence_list)
+
+# Mask to filter dataframe
+mask_cadences = tones['cadence_kind'].isin(cadences_selected)
+
+tone_data = tones[mask_cadences]
+
+# This is for filtered tones (just oned)
+tone_diagram = alt.Chart(tone_data).mark_circle().encode(
+    x='cadence_final_tone',
+    y='composition_number',
+    color='final_cadence',
+    #shape='final_cadence',
+    tooltip=['cadence_final_tone', 'composition_number', 'final_cadence']
+)
+
+st.altair_chart(tone_diagram, use_container_width=True)
 # This displays choice of piece 
 st.subheader('Selected Pieces as Shown at Left')
 
