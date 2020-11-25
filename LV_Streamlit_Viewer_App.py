@@ -119,6 +119,29 @@ tone_diagram = alt.Chart(tone_data).mark_circle().encode(
 )
 
 st.altair_chart(tone_diagram, use_container_width=True)
+# Dialogue to Select Last Cadence of Piece
+st.subheader('Last Cadence of Piece as Shown at Left')
+
+# Create a list of possible values and multiselect menu with them in it.
+
+cadence_list = tones['final_cadence'].unique()
+cadences_selected = st.sidebar.multiselect('Select Tone of Last Cadence', cadence_list)
+
+# Mask to filter dataframe
+mask_cadences = tones['final_cadence'].isin(cadences_selected)
+
+tone_data = tones[mask_cadences]
+
+# This is for filtered tones (just oned)
+tone_diagram = alt.Chart(tone_data).mark_circle().encode(
+    x='cadence_final_tone',
+    y='composition_number',
+    color='cadence_kind',
+    #shape='final_cadence',
+    tooltip=['cadence_final_tone', 'composition_number', 'final_cadence']
+)
+
+st.altair_chart(tone_diagram, use_container_width=True)
 # This displays choice of piece 
 st.subheader('Selected Pieces as Shown at Left')
 
