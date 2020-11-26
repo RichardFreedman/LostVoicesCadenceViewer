@@ -68,6 +68,8 @@ st.altair_chart(chartB, use_container_width=True)
 
 cadence_data = df[["cadence_final_tone", "cadence_kind", "final_cadence", "composition_number", "phrase_number"]]
 
+st.subheader('Select Views and Subsets at Left:  Results Below')
+st.subheader('  ')
 
 # Dialogue to Select Cadence by Final Tone of Cadence
 
